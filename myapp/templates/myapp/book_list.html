@@ -1,0 +1,16 @@
+{% extends 'base_generic.html' %}
+
+{% block title %} Library Inventory {% endblock title %}
+
+{% block content %}
+
+    <h2>Books in Library</h2>
+    <ul>
+        {% for book in books %}
+        <li>
+            <a href="{% url 'myapp:book_detail' book.pk %}"> {{ book.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'myapp:book_create' %}">Donate a book</a>
+{% endblock content %}

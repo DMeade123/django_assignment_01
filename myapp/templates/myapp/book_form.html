@@ -1,0 +1,14 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}Add or Edit Book Details Form{% endblock title %}
+
+{% block content %}
+    <h2>Book Add or Edit Form</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Save Data</button>
+    </form>
+    <br>
+    <a href=" {%url 'myapp:book_list' %}">Cancel and Go Back to Inventory</a>
+{%  endblock content %}

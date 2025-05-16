@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}Delete Confirmation{% endblock title %}
+
+{% block content %}
+
+    <h2>Banish Book?</h2>
+    <p>Confirm you want to banish {{ book.title }}</p>
+    <form method="post">
+        {% csrf_token %} <!--built-in feature to protect agaisnt csrf attacks-->
+        <button type="submit">Banish It!</button>
+    </form>
+    <br>
+    <a href="{% url 'myapp:book_detail' book.pk %}">Nevermind, Go Back to Book Details</a>
+{% endblock content %}
