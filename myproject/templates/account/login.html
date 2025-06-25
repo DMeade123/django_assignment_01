@@ -1,0 +1,13 @@
+{% load socialaccount %}
+<h2>Login to View the Library Inventory</h2>
+<form method="post" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+</form>
+
+<h3>Or Login with:</h3>
+<a href="{% provider_login_url 'google' %}">Login with Google</a>
+
+<h4>Not Member? Sign Up Below!</h4>
+<a href="{% url 'account_signup' %}">Sign Up</a>

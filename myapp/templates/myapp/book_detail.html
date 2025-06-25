@@ -5,7 +5,9 @@
 {% block content %}
     <h2>{{ book.title }}</h2>
     <h3>Author: {{ book.author }}</h3>
-    <a href="{% url 'myapp:book_update' book.pk %}">Edit Details</a>
-    <a href="{% url 'myapp:book_delete' book.pk %}">Remove Book</a>
+    {% if object.owner == user or user.is_staff %}
+        <a href="{% url 'myapp:book_update' book.pk %}">Edit Details</a>
+        <a href="{% url 'myapp:book_delete' book.pk %}">Remove Book</a>
+    {% endif  %}
     <a href="{% url 'myapp:book_list' %}">Back to the Inventory</a>
 {% endblock content %}
