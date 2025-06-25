@@ -6,9 +6,12 @@
     <title>{% block title %}The Library{% endblock title %}</title>
 </head>
 <body>
-    <h1>Welcome to the Library</h1>
     <nav>
-        <a href="{% url 'myapp:book_list' %}">Check the Inventory</a>
+        {% if user.is_authenticated %}
+            <h1>Welcome to the Library {{user.email}}!</h1>
+            <a href="{% url 'myapp:book_list' %}">Check the Inventory</a>
+            <a href="{% url 'account_logout' %}">Logout</a>
+        {% endif %}
         <div>
             {% block content %}{% endblock content %}
         </div>
