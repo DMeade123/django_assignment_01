@@ -3,6 +3,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Book #import book model from models.py
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .serializers import BookSerializer, AuthorSerializer
+from rest_framework import viewsets, permissions
 
 # Create your views here.
 class BookListView(LoginRequiredMixin, ListView):
@@ -40,4 +42,10 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         obj = self.get_object()
         return obj.owner == self.request.user or self.request.user.is_staff
 
-    
+class BookViewSet(viewsets.ModelViewSet):
+    queryset = Book.objects.all().order_by('id')
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
