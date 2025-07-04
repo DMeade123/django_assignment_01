@@ -1,7 +1,7 @@
 from django.db import models # Expected: Import models from django
 from django.utils import timezone # Expected: Import timezone from django with timezone awareness
 from django.contrib.auth.models import User #
-
+from django.conf import settings
 # Create your models here.
 class Author(models.Model): # Expected: Table called Authors class inherits from models.Model
     name = models.CharField(max_length=200)
@@ -12,7 +12,7 @@ class Author(models.Model): # Expected: Table called Authors class inherits from
 class Book(models.Model): # Expected: Table called Books class inherits from models.Model
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='books', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.title

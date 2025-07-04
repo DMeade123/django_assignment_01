@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.sites', #required by allauth
     'rest_framework',
     'drf_spectacular',
+    'django_filters',
     
     #my app(s)
     'myapp', #add my app
@@ -111,6 +112,11 @@ REST_FRAMEWORK = {
         # Alternatives:
         # 'rest_framework.permissions.IsAuthenticatedOrReadOnly' # Allows anonymous GET requests
         # 'rest_framework.permissions.AllowAny' # No restrictions (use carefully!)
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 7,
