@@ -1,0 +1,32 @@
+# docker-compose.yml
+#version: '3.8' use current version
+
+services:
+  # web service (my django/drf app)
+  web:
+    build: . #build the image from the Dockerfile in the current directory
+    container_name: django_web
+    # command to run (includes migration check and gunicorn start)
+    command: sh -c "./wait-for-it.sh db:5432 -- python manage.py migrate && gunicorn myproject.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - .:/app #mount current directory into container for development (live code reload)
+    ports:
+      - "8000:8000" # map host port 8000 to container port 8000
+    env_file:
+      - .env # loads env vars from .env file
+    depends_on:
+      - db # wait for the db service to be ready (basic check, DB may not be fully initialized)
+
+  db:
+    image: postgres:16-alpine # latest postgreSQL alpine version
+    container_name: postgres_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/ # mount a named volume to persist database data
+    env_file:
+      - .env # load env vars from .env
+    expose:
+      - 5432
+
+# define the volue for database persistance
+volumes:
+  postgres_data: 
